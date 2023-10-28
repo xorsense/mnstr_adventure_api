@@ -1,8 +1,8 @@
 package mapping
 
 import (
-	"mnstr.at/mud/character"
-	"mnstr.at/mud/item"
+	"github.com/xorsense/mnstr_adventure_api/character"
+	"github.com/xorsense/mnstr_adventure_api/item"
 )
 
 type AreaOption func(Area)
