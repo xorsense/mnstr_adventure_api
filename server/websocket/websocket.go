@@ -63,7 +63,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 func Commands() []string {
 	cmds := []string{}
 	for k, _ := range router.handlers {
-		cmds = append(cmds, k)
+		cmds = append(cmds, k) // Just returns Echo and commands for routes.go
 	}
 	return cmds
 }

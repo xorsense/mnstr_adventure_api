@@ -27,9 +27,9 @@ func NewRouter() *Router {
 
 func (r *Router) HandleFunc(namespace string, handler HandlerFunc) {
 	if r.handlers == nil {
-		r.handlers = make(map[string]HandlerFunc)
+		r.handlers = make(map[string]HandlerFunc) // just allocs space
 	}
-	r.handlers[namespace] = handler
+	r.handlers[namespace] = handler // instantiates both
 }
 
 func (r *Router) Parse(namespace string) (HandlerFunc, error) {

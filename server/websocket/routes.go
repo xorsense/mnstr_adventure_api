@@ -5,7 +5,10 @@ import (
 	"log"
 )
 
-func init() {
+// As in http HandleFunc we pass a type HandlerFunc func(conn *Conn, messageType int,
+//  arguments ...string), request,,, her we are passing the connection and message type
+//  with arguments
+func init() { //func(conn *Conn, messageType int, arguments ...string)
 	HandleFunc("echo", func(conn *Conn, messageType int, arguments ...string) {
 		log.Printf("echo: message type: %d, arguments: %v", messageType, arguments)
 		data, err := json.Marshal(arguments)
@@ -18,6 +21,7 @@ func init() {
 		}
 	})
 
+	// Calls a second time
 	HandleFunc("commands", func(conn *Conn, messageType int, arguments ...string) {
 		data, err := json.Marshal(Commands())
 		if err != nil {
