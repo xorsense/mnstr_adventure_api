@@ -10,11 +10,12 @@ type Conn struct {
 	*websocket.Conn
 }
 
-type HandlerFunc func(conn *Conn, messageType int, arguments ...string)
+type HandlerArguments map[string]any
+type HandlerFunc func(conn *Conn, messageType int, arguments HandlerArguments)
 
 type Command struct {
-	Namespace string   `json:"namespace"`
-	Arguments []string `json:"arguments"`
+	Namespace string           `json:"namespace"`
+	Arguments HandlerArguments `json:"arguments"`
 }
 
 type Router struct {

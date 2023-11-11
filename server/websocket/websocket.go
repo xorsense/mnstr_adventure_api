@@ -6,7 +6,9 @@ import (
 	"net/http"
 )
 
-var upgrader = websocket.Upgrader{}
+var upgrader = websocket.Upgrader{CheckOrigin: func(r *http.Request) bool {
+	return true
+}}
 var router = NewRouter()
 
 func UpgradeHTTP(w http.ResponseWriter, r *http.Request, h http.Header) (*websocket.Conn, error) {
@@ -56,14 +58,6 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 			log.Printf("websocket: handle connection: parse json: error: %s", err)
 			break
 		}
-		handler(conn, mt, cmd.Arguments...)
+		handler(conn, mt, cmd.Arguments)
 	}
-}
-
-func Commands() []string {
-	cmds := []string{}
-	for k, _ := range router.handlers {
-		cmds = append(cmds, k) // Just returns Echo and commands for routes.go
-	}
-	return cmds
 }
