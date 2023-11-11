@@ -1,6 +1,7 @@
 package websocket
 
 import (
+	"fmt"
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
@@ -51,12 +52,15 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 			if err := conn.WriteMessage(mt, []byte("binary messages are not supported at this time")); err != nil {
 				log.Printf("websocket: handle connection: write message: error: %s", err)
 			}
-			break
+			continue
 		}
 		cmd, handler, err := ParseJSON(msg)
 		if err != nil {
 			log.Printf("websocket: handle connection: parse json: error: %s", err)
-			break
+			if err := conn.WriteMessage(mt, []byte(fmt.Sprintf("json parsing error: msg: %s", msg))); err != nil {
+				log.Printf("websocket: handle connection: write message: error: %s", err)
+			}
+			continue
 		}
 		handler(conn, mt, cmd.Arguments)
 	}
